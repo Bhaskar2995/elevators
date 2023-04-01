@@ -4,5 +4,5 @@ from .models import Elevator
 # Register your models here.
 
 class ElevatorAdmin(admin.ModelAdmin):
-    list_display = ('id','up', 'down', 'open','close', 'running','stop')
+    list_display = ('floor','id','status','direction')
 admin.site.register(Elevator, ElevatorAdmin)
