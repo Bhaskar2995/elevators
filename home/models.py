@@ -10,8 +10,7 @@ class Elevator(models.Model):
     stop = models.BooleanField(default=True)
     open = models.BooleanField(default=False)
     close = models.BooleanField(default=True)
+    maintenance = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.id
    
 
