@@ -27,7 +27,7 @@ def state_elevator(id,state):
         time.sleep(10)
         elevator.state = "closed"
         elevator.save()
-    # return JsonResponse({'id':elevator.id,'Present Floor': elevator.floor, 'state':elevator.state})
+    return JsonResponse({'id':elevator.id,'Present Floor': elevator.floor, 'state':elevator.state})
 
 
 @shared_task
@@ -35,17 +35,13 @@ def assign_elevator(floor):
     elevators = Elevator.objects.exclude(maintenance= True).order_by('floor')
     min_value = float('inf')
     for elevator in elevators:
-       
-        value = abs(floor - elevator.floor)
-        if value < min_value:
-            min_value = value
-            closest_elevator = elevator
-            
-            # if closest_elevator.status == "running":
-            #     closest_elevator.next_destination
-            # else:
-            closest_elevator.status = "running"
-            closest_elevator.next_destination = floor
+        if not elevator.status == "running":
+            value = abs(floor - elevator.floor)
+            if value < min_value:
+                min_value = value
+                closest_elevator = elevator
+                closest_elevator.status = "running"
+                closest_elevator.next_destination = floor
 
     if closest_elevator.id not in elevator_dict:
         elevator_dict[closest_elevator.id] = closest_elevator.status
