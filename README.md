@@ -62,3 +62,7 @@ OUTPUT: {"id": 2, "status": "stop", "Present Floor": 14, "state": "opening"}
 
 It checks if the status is in "stop" and opens or closes the door of the elevator
 
+Example output in Django admin
+
+![Select elevator to change _ Django site admin - Google Chrome 4_2_2023 1_55_59 PM](https://user-images.githubusercontent.com/98119194/229341767-24522b7b-c9d9-419c-9829-74eab398a3b8.png)
+
