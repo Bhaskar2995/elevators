@@ -18,5 +18,7 @@ class Elevator(models.Model):
     close = models.BooleanField(default=True)
     maintenance = models.BooleanField(default=False)
     floor = models.IntegerField(default=0)
+    next_destination = models.IntegerField(default=0)
+    state = models.CharField(max_length=300,default="closed")
    
 

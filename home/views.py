@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic import View
 from .models import Elevator
-from .helpers import assign_elevator
+from .helpers import assign_elevator,state_elevator
 from threading import *
+import time
 
 # Create your views here.
 
@@ -43,4 +44,21 @@ class Index(View):
         if 'elevator_status' in kwargs:
             elevator = Elevator.objects.get(id=kwargs['elevator_status'])
             return JsonResponse({'Current Status':elevator.status})
+        
+        if 'next_destination' in kwargs:
+              elevator = Elevator.objects.get(id=kwargs['next_destination'])
+              print('elevator',elevator)
+              return JsonResponse({'Next Destination':elevator.next_destination})
+        
+        if 'elevator_request' in kwargs:
+            elevator = Elevator.objects.get(id=kwargs['elevator_request'])
+            return JsonResponse({'id':elevator.id,'status':elevator.status ,'Present Floor': elevator.floor, 'Direction': elevator.direction, 'Next Destination':elevator.next_destination})
+        
+        if 'state_elevator' in kwargs:
+            elevator = Elevator.objects.get(id=kwargs['state_elevator'])
+            if not elevator.status == "stop":
+                return JsonResponse({'error':'Elevator is currently running cannot open/close'})
+            state_elevator.delay(kwargs['state_elevator'],kwargs['state'])
+            
+            return JsonResponse({'id':elevator.id,'status':elevator.status ,'Present Floor': elevator.floor, 'state':elevator.state})
 
